@@ -1,0 +1,32 @@
+name: Jira Issue Linker
+
+on:
+  workflow_call:
+    inputs:
+      jira_domain:
+        required: true
+        type: string
+
+jobs:
+  link_jira_issue:
+    name: Link Jira Issue
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check Branch
+        id: check-branch
+        run: |
+          jira_issue=$(echo ${{ github.head_ref }} | perl -ne 'm%^([A-Za-z]+?-[\d]+?)%; print $1')
+          if ! test -z "$jira_issue"; then
+            echo ::set-output name=match::true
+            echo ::set-output name=jira_issue::$jira_issue
+          fi
+
+      - uses: tzkhan/pr-update-action@bbd4c9395df8a9c4ef075b8b7fe29f2ca76cdca9
+        if: steps.check-branch.outputs.match == 'true'
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          head-branch-regex: '.*' # not used
+          body-update-action: prefix
+          body-template: |
+            Jira Issue: https://${{ inputs.jira_domain }}/browse/${{ steps.check-branch.outputs.jira_issue }}
+            ---
