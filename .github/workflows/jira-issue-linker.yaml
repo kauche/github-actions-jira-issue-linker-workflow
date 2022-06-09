@@ -15,7 +15,7 @@ jobs:
       - name: Check Branch
         id: check-branch
         run: |
-          jira_issue=$(echo ${{ github.head_ref }} | perl -ne 'm%^([A-Za-z]+?-[\d]+?)%; print $1')
+          jira_issue=$(echo ${{ github.head_ref }} | perl -ne 'm%^([A-Za-z]+?-[\d]+)%; print $1')
           if ! test -z "$jira_issue"; then
             echo ::set-output name=match::true
             echo ::set-output name=jira_issue::$jira_issue
