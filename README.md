@@ -25,8 +25,6 @@ jobs:
 -   `jira_domain`
     - Your domain for Jira like `example-domain.atlassian.net`.
 
----
-
 After placing the Workflow file, create a branch with format like below:
 
 - `<Jira Project Key>-<Jira Issue Number>-<Arbitrary String...>`
