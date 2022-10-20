@@ -17,8 +17,8 @@ jobs:
         run: |
           jira_issue=$(echo ${{ github.head_ref }} | perl -ne 'm%^([A-Za-z]+?-[\d]+)%; print $1')
           if ! test -z "$jira_issue"; then
-            echo ::set-output name=match::true
-            echo ::set-output name=jira_issue::$jira_issue
+            echo "match=true" >> $GITHUB_OUTPUT
+            echo "jira_issue=$jira_issue" >> $GITHUB_OUTPUT
           fi
 
       - uses: tzkhan/pr-update-action@bbd4c9395df8a9c4ef075b8b7fe29f2ca76cdca9
